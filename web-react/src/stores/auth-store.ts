@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
+import { apiClient, ApiError } from '@/apis/client'
 
 interface User {
   id: string
@@ -31,6 +32,19 @@ interface AuthState {
   getAuthHeaders: () => Record<string, string>
 }
 
+function mapUser(data: Record<string, unknown>): User {
+  return {
+    id: data.id as string,
+    username: data.username as string,
+    uid: (data.uid as string) || '',
+    phone_number: (data.phone_number as string) || '',
+    avatar: (data.avatar as string) || '',
+    role: data.role as string,
+    department_id: (data.department_id as string | null) || null,
+    department_name: (data.department_name as string) || ''
+  }
+}
+
 export const useAuthStore = create<AuthState>()(
   persist(
     (set, get) => ({
@@ -45,37 +59,24 @@ export const useAuthStore = create<AuthState>()(
         formData.append('username', credentials.loginId)
         formData.append('password', credentials.password)
 
-        const response = await fetch('/api/auth/token', { method: 'POST', body: formData })
-        if (!response.ok) {
-          if (response.status === 423) {
-            const error = new Error('账号已被锁定') as Error & { status: number; headers: Headers }
+        try {
+          const data = await apiClient.post<Record<string, unknown>>('/api/auth/token', formData, {}, false)
+          const user = mapUser(data as Record<string, unknown>)
+          set({
+            token: data.access_token as string,
+            user,
+            isLoggedIn: true,
+            isAdmin: user.role === 'admin' || user.role === 'superadmin',
+            isSuperAdmin: user.role === 'superadmin'
+          })
+        } catch (err) {
+          if (err instanceof ApiError && err.status === 423) {
+            const error = new Error('账号已被锁定') as Error & { status: number }
             error.status = 423
-            error.headers = response.headers
             throw error
           }
-          const err = await response.json()
-          throw new Error(err.detail || '登录失败')
+          throw err
         }
-
-        const data = await response.json()
-        const user = {
-          id: data.user_id,
-          username: data.username,
-          uid: data.uid,
-          phone_number: data.phone_number || '',
-          avatar: data.avatar || '',
-          role: data.role,
-          department_id: data.department_id || null,
-          department_name: data.department_name || ''
-        }
-
-        set({
-          token: data.access_token,
-          user,
-          isLoggedIn: true,
-          isAdmin: user.role === 'admin' || user.role === 'superadmin',
-          isSuperAdmin: user.role === 'superadmin'
-        })
       },
 
       logout: () => {
@@ -91,63 +92,42 @@ export const useAuthStore = create<AuthState>()(
       getCurrentUser: async () => {
         const { token } = get()
         if (!token) return
-        const response = await fetch('/api/auth/me', {
-          headers: { Authorization: `Bearer ${token}` }
-        })
-        if (!response.ok) throw new Error('获取用户信息失败')
-        const userData = await response.json()
-        const user = {
-          id: userData.id,
-          username: userData.username,
-          uid: userData.uid,
-          phone_number: userData.phone_number || '',
-          avatar: userData.avatar || '',
-          role: userData.role,
-          department_id: userData.department_id || null,
-          department_name: userData.department_name || ''
+        try {
+          const userData = await apiClient.get<Record<string, unknown>>('/api/auth/me')
+          const user = mapUser(userData)
+          set({
+            user,
+            isLoggedIn: true,
+            isAdmin: user.role === 'admin' || user.role === 'superadmin',
+            isSuperAdmin: user.role === 'superadmin'
+          })
+        } catch {
+          throw new Error('获取用户信息失败')
         }
-        set({
-          user,
-          isLoggedIn: true,
-          isAdmin: user.role === 'admin' || user.role === 'superadmin',
-          isSuperAdmin: user.role === 'superadmin'
-        })
       },
 
       initialize: async (admin) => {
-        const response = await fetch('/api/auth/initialize', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(admin)
-        })
-        if (!response.ok) {
-          const err = await response.json()
-          throw new Error(err.detail || '初始化管理员失败')
+        try {
+          const data = await apiClient.post<Record<string, unknown>>('/api/auth/initialize', admin, {}, false)
+          const user = mapUser(data as Record<string, unknown>)
+          set({
+            token: data.access_token as string,
+            user,
+            isLoggedIn: true,
+            isAdmin: true,
+            isSuperAdmin: user.role === 'superadmin'
+          })
+        } catch (err) {
+          if (err instanceof ApiError) {
+            throw new Error(err.message || '初始化管理员失败')
+          }
+          throw err
         }
-        const data = await response.json()
-        const user = {
-          id: data.user_id,
-          username: data.username,
-          uid: data.uid,
-          phone_number: data.phone_number || '',
-          avatar: data.avatar || '',
-          role: data.role,
-          department_id: data.department_id || null,
-          department_name: data.department_name || ''
-        }
-        set({
-          token: data.access_token,
-          user,
-          isLoggedIn: true,
-          isAdmin: true,
-          isSuperAdmin: user.role === 'superadmin'
-        })
       },
 
       checkFirstRun: async () => {
         try {
-          const response = await fetch('/api/auth/check-first-run')
-          const data = await response.json()
+          const data = await apiClient.get<{ first_run: boolean }>('/api/auth/check-first-run', undefined, {}, false)
           return data.first_run
         } catch {
           return false

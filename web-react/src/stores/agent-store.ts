@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
+import { agentApi } from '@/apis/agent'
 
 interface Agent {
   id: string
@@ -48,10 +49,8 @@ export const useAgentStore = create<AgentState>()(
         if (state.isInitialized || state.isInitializing) return
         state.setInitializing(true)
         try {
-          const response = await fetch('/api/agents')
-          if (!response.ok) throw new Error('获取 Agent 列表失败')
-          const data = await response.json()
-          state.setAgents(data.agents ?? data)
+          const data = await agentApi.getAgents()
+          state.setAgents((data.agents ?? []) as Agent[])
           state.setInitialized(true)
         } catch (err) {
           console.error('Failed to initialize agents:', err)

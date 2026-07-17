@@ -20,7 +20,7 @@ export function useChatStream() {
     setIsStreaming(true)
     setMessages([])
 
-    const token = useAuthStore.getState().token
+    const headers = useAuthStore.getState().getAuthHeaders()
     const url = threadId
       ? `/api/agents/chat/${threadId}`
       : '/api/agents/chat'
@@ -30,7 +30,7 @@ export function useChatStream() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          ...(token ? { Authorization: `Bearer ${token}` } : {})
+          ...headers
         },
         body: JSON.stringify({ message: content }),
         signal: abortController.signal
