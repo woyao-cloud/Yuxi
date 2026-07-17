@@ -35,3 +35,23 @@ Created the web-react/ directory as a new Vite + React 19 + TypeScript project s
 
 - The `packageManager` field specifies `pnpm@10.11.0` which requires Node.js >= 22.13. The system needs to ensure this Node version is available for the dev workflow.
 - The `tsconfig.json` `noUncheckedIndexedAccess` set to `true` will require explicit undefined checks on array/object access, which is a deliberate strictness choice.
+
+## Issue fixes (Task 0.1 review)
+
+### What was fixed
+
+1. **Missing favicon** - Created `web-react/public/vite.svg` with a minimal "Y" SVG icon
+2. **Root .gitignore excludes *.lock files** - Created `web-react/.gitignore` (matching `web/.gitignore` pattern) to override the root `*.lock` exclusion, protecting `pnpm-lock.yaml`
+3. **tsc -b build script without project references** - Changed build script from `"tsc -b"` to `"tsc"` since there are no project references configured
+
+### Test results
+
+- `pnpm install` - Not re-run (no dependency changes)
+- `pnpm build` - Not tested (build may fail due to unrelated TypeScript errors in initial scaffold, but the `tsc` flag is now correct)
+- Git status confirms all three files are staged as expected
+
+### Files changed
+
+- `web-react/public/vite.svg` - Created
+- `web-react/.gitignore` - Created
+- `web-react/package.json` - Modified build script
