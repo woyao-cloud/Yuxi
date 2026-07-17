@@ -201,6 +201,31 @@ services:
     command: pnpm run server
     restart: unless-stopped
 
+  web-react:
+    build:
+      context: ./web-react
+      dockerfile: Dockerfile
+    image: yuxi-web-react:${YUXI_VERSION:-0.7.1.beta2}
+    container_name: web-react-dev
+    volumes:
+      - ./web-react/src:/app/src
+      - ./web-react/public:/app/public
+      - ./web-react/index.html:/app/index.html
+      - ./web-react/vite.config.ts:/app/vite.config.ts
+    ports:
+      - "5173:5173"
+    depends_on:
+      - api
+    networks:
+      - app-network
+    environment:
+      - NODE_ENV=development
+      - VITE_API_URL=http://api:5050
+      - VITE_USE_RUNS_API=${VITE_USE_RUNS_API:-false}
+      - VITE_LITE_MODE=${LITE_MODE:-}
+    command: pnpm dev --host 0.0.0.0
+    restart: unless-stopped
+
   # region neo4j
   graph:
     image: neo4j:5.26
@@ -272,7 +297,7 @@ services:
     restart: unless-stopped
 
   milvus:
-    image: milvusdb/milvus:v2.5.6
+    image: milvusdb/milvus:v2.6.15
     container_name: milvus
     command: ["milvus", "run", "standalone"]
     security_opt:
@@ -301,7 +326,7 @@ services:
     restart: unless-stopped
 
   postgres:
-    image: postgres:16
+    image: postgres:17
     container_name: postgres
     ports:
       - "5432:5432"
