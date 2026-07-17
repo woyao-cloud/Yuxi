@@ -4,7 +4,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Input } from '@/components/ui/input'
 import { Switch } from '@/components/ui/switch'
 import { Label } from '@/components/ui/label'
-import { Separator } from '@/components/ui/separator'
 import EmbeddingModelSelector from './embedding-model-selector'
 import RerankModelSelector from './rerank-model-selector'
 
@@ -25,7 +24,7 @@ export default function SearchConfigPanel() {
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
             <Label>搜索模式</Label>
-            <Select value={searchMode} onValueChange={setSearchMode}>
+            <Select value={searchMode} onValueChange={(value) => value !== null && setSearchMode(value)}>
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>

@@ -10,9 +10,7 @@ export const authApi = {
     ),
   getMe: () => apiClient.get<Record<string, unknown>>('/api/auth/me'),
   getUsers: (params?: { skip?: number; limit?: number }) =>
-    apiClient.get<unknown[]>('/api/auth/users', {
-      params: new URLSearchParams(params as Record<string, string>)
-    }),
+    apiClient.get<unknown[]>('/api/auth/users', new URLSearchParams(params as Record<string, string>)),
   createUser: (data: Record<string, unknown>) =>
     apiClient.post('/api/auth/users', data),
   updateUser: (userId: string, data: Record<string, unknown>) =>
@@ -27,7 +25,7 @@ export const authApi = {
     return apiClient.post('/api/auth/upload-avatar', formData)
   },
   checkFirstRun: () =>
-    apiClient.get<{ first_run: boolean }>('/api/auth/check-first-run', {}, false),
+    apiClient.get<{ first_run: boolean }>('/api/auth/check-first-run', undefined, {}, false),
   initialize: (admin: { username: string; password: string }) =>
     apiClient.post('/api/auth/initialize', admin, {}, false),
   validateUsername: (username: string) =>

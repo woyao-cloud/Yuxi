@@ -6,8 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Textarea } from '@/components/ui/textarea'
 import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import { Send, Loader2, Search, Settings2 } from 'lucide-react'
+import { Loader2, Search, Settings2 } from 'lucide-react'
 import SearchConfigPanel from './search-config-panel'
 import SearchConfigModal from './search-config-modal'
 import KBResultGroupedList from './kb-result-grouped-list'
@@ -111,13 +110,13 @@ export default function QuerySection({ kbId }: QuerySectionProps) {
           </div>
 
           {results.results && results.results.length > 0 && (
-            <KBResultGroupedList results={results.results} />
+            <KBResultGroupedList results={results.results as Record<string, unknown>[]} />
           )}
 
           {results.web_results && results.web_results.length > 0 && (
             <>
               <Separator />
-              <WebSearchResultList results={results.web_results} />
+              <WebSearchResultList results={results.web_results as Record<string, unknown>[]} />
             </>
           )}
 

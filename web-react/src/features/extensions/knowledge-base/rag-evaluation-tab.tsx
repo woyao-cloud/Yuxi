@@ -4,7 +4,6 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Input } from '@/components/ui/input'
-import { Separator } from '@/components/ui/separator'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Label } from '@/components/ui/label'
 import { Play, BarChart3, History, Loader2 } from 'lucide-react'
@@ -53,7 +52,7 @@ export default function RAGEvaluationTab({ kbId }: RAGEvaluationTabProps) {
   const [evalName, setEvalName] = useState('')
   const [isRunning, setIsRunning] = useState(false)
   const [showBenchmarks, setShowBenchmarks] = useState(false)
-  const [lastResult] = useState<EvaluationResult | null>(mockResults[1])
+  const [lastResult] = useState<EvaluationResult | null>(mockResults[1] ?? null)
 
   const handleRunEvaluation = () => {
     if (!selectedBenchmark || !evalName) return
@@ -85,7 +84,7 @@ export default function RAGEvaluationTab({ kbId }: RAGEvaluationTabProps) {
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label>评估基准</Label>
-              <Select value={selectedBenchmark} onValueChange={setSelectedBenchmark}>
+              <Select value={selectedBenchmark} onValueChange={(value) => value !== null && setSelectedBenchmark(value)}>
                 <SelectTrigger>
                   <SelectValue placeholder="选择评估基准" />
                 </SelectTrigger>

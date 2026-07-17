@@ -24,7 +24,7 @@ export default function ApiKeyManagement() {
   const [newKeyName, setNewKeyName] = useState('')
   const [newKeyValue, setNewKeyValue] = useState('')
 
-  const { data, isLoading } = useQuery({
+  const { isLoading } = useQuery({
     queryKey: ['api-keys'],
     queryFn: () => authApi.getUsers({ skip: 0, limit: 1 }),
     // This is a placeholder — the actual API key endpoint may differ

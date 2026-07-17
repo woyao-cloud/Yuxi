@@ -1,10 +1,10 @@
 import {
   File, FileText, FileImage, FileArchive, FileAudio, FileVideo,
-  FileCode, FileSpreadsheet, FilePdf, FileJson, type LucideIcon
+  FileCode, FileSpreadsheet, FileJson, type LucideIcon
 } from 'lucide-react'
 
 const iconMap: Record<string, LucideIcon> = {
-  pdf: FilePdf,
+  pdf: FileText,
   doc: FileText, docx: FileText,
   xls: FileSpreadsheet, xlsx: FileSpreadsheet,
   ppt: FileText, pptx: FileText,

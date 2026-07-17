@@ -7,7 +7,7 @@ export const knowledgeApi = {
   getDatabaseDetail: (dbId: string) =>
     apiClient.get<{ database: unknown }>(`/api/databases/${dbId}`),
   getDocuments: (dbId: string, params?: Record<string, unknown>) =>
-    apiClient.get(`/api/databases/${dbId}/documents`, { params }),
+    apiClient.get(`/api/databases/${dbId}/documents`, params),
   getDocumentDetail: (dbId: string, docId: string) =>
     apiClient.get(`/api/databases/${dbId}/documents/${docId}`),
   query: (dbId: string, query: Record<string, unknown>) =>

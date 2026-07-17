@@ -7,5 +7,5 @@ export const systemApi = {
   updateConfigBatch: (config: Record<string, unknown>) =>
     apiClient.put('/api/system/config/batch', config),
   getInfo: () => apiClient.get<Record<string, unknown>>('/api/system/info'),
-  healthCheck: () => apiClient.get<{ status: string }>('/api/health', {}, false)
+  healthCheck: () => apiClient.get<{ status: string }>('/api/health', undefined, {}, false)
 }

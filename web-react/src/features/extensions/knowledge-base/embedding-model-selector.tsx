@@ -17,7 +17,7 @@ const models = [
 
 export default function EmbeddingModelSelector({ value, onChange }: EmbeddingModelSelectorProps) {
   return (
-    <Select value={value} onValueChange={onChange}>
+    <Select value={value} onValueChange={(v) => v !== null && onChange(v)}>
       <SelectTrigger className="w-full">
         <SelectValue />
       </SelectTrigger>

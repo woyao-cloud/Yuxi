@@ -1,5 +1,3 @@
-import { useQuery } from '@tanstack/react-query'
-import { dashboardApi } from '@/apis/dashboard'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Bot, PhoneCall, BookOpen, Wrench, Users } from 'lucide-react'

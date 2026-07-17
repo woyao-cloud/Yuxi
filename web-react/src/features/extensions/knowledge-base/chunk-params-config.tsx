@@ -38,7 +38,7 @@ export default function ChunkParamsConfig({ open, onClose }: ChunkParamsConfigPr
         <div className="space-y-4">
           <div className="space-y-2">
             <Label>分块策略</Label>
-            <Select value={chunkStrategy} onValueChange={setChunkStrategy}>
+            <Select value={chunkStrategy} onValueChange={(value) => value !== null && setChunkStrategy(value)}>
               <SelectTrigger className="w-full">
                 <SelectValue />
               </SelectTrigger>

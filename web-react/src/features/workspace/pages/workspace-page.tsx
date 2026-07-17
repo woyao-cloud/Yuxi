@@ -21,7 +21,7 @@ export default function WorkspacePage() {
       <div className="flex flex-1 overflow-hidden">
         <WorkspaceSidebar currentPath={currentPath} onNavigate={setCurrentPath} />
         <WorkspaceFileList
-          files={(files as { files: unknown[] })?.files ?? []}
+          files={(files as { files: { name: string; type: 'file' | 'directory'; path: string }[] } | undefined)?.files ?? []}
           isLoading={isLoading}
           currentPath={currentPath}
           onFileSelect={setSelectedFile}

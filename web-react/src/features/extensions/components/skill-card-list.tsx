@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
 import ResourceEmptyState from '@/components/shared/resource-empty-state'
 import ExtensionToolbar from './extension-toolbar'
-import { Lightbulb, ShieldCheck } from 'lucide-react'
+import { Lightbulb } from 'lucide-react'
 
 interface Skill {
   slug: string

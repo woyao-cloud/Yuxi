@@ -15,7 +15,7 @@ const models = [
 
 export default function RerankModelSelector({ value, onChange }: RerankModelSelectorProps) {
   return (
-    <Select value={value} onValueChange={onChange}>
+    <Select value={value} onValueChange={(v) => v !== null && onChange(v)}>
       <SelectTrigger className="w-full">
         <SelectValue />
       </SelectTrigger>

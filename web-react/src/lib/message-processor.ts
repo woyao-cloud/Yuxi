@@ -101,7 +101,7 @@ export class MessageProcessor {
       if (item.type === 'tool') {
         const toolCallId = item.tool_call_id || item.id
         if (toolCallId) {
-          toolResponseMap.set(toolCallId, item as unknown as ToolCallResult)
+          toolResponseMap.set(toolCallId as string, item as unknown as ToolCallResult)
         }
       }
     }

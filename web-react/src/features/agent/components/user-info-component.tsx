@@ -16,7 +16,7 @@ export default function UserInfoComponent() {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+      <DropdownMenuTrigger>
         <button className={`flex w-full items-center gap-2 rounded-md px-2 py-1 text-sm hover:bg-accent ${sidebarCollapsed ? 'justify-center' : ''}`}>
           <Avatar className="h-7 w-7">
             <AvatarImage src={user.avatar} />

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Outlet, useNavigate, useLocation } from 'react-router-dom'
 import {
   MessageCirclePlus, FolderKanban, LibraryBig, Box, BarChart3,
-  PanelLeftClose, PanelLeftOpen, Search, Github
+  PanelLeftClose, PanelLeftOpen, Search, GitBranch
 } from 'lucide-react'
 import { useAuthStore } from '@/stores/auth-store'
 import { useChatStore } from '@/stores/chat-store'
@@ -84,7 +84,7 @@ export default function AppLayout() {
           <nav className="flex flex-col gap-1 px-2">
             {mainList.map((item) => (
               <Tooltip key={item.path}>
-                <TooltipTrigger asChild>
+                <TooltipTrigger>
                   <Button
                     variant={isActive(item) ? 'secondary' : 'ghost'}
                     size="sm"
@@ -101,7 +101,7 @@ export default function AppLayout() {
 
             {/* Search */}
             <Tooltip>
-              <TooltipTrigger asChild>
+              <TooltipTrigger>
                 <Button variant="ghost" size="sm" className={`justify-start ${sidebarCollapsed ? 'w-9 px-0' : 'w-full'}`}
                   onClick={() => setConversationSearchOpen(true)}>
                   <Search className="h-4 w-4 shrink-0" />
@@ -123,7 +123,7 @@ export default function AppLayout() {
             <div className="mb-2 flex items-center justify-between rounded-md px-2 py-1 text-sm text-muted-foreground hover:bg-accent">
               <a href="https://github.com/xerrors/Yuxi" target="_blank" rel="noreferrer"
                 className="flex items-center gap-2 text-inherit no-underline">
-                <Github className="h-4 w-4" />
+                <GitBranch className="h-4 w-4" />
                 {!sidebarCollapsed && <span>GitHub</span>}
               </a>
               {!sidebarCollapsed && githubStars > 0 && (

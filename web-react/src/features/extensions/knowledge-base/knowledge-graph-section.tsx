@@ -3,10 +3,8 @@ import { useQuery } from '@tanstack/react-query'
 import { knowledgeApi } from '@/apis/knowledge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import { Share2, Download, ZoomIn, ZoomOut, RotateCcw } from 'lucide-react'
+import { Share2, ZoomIn, ZoomOut, RotateCcw } from 'lucide-react'
 import MindMapSection from './mind-map-section'
 
 interface KnowledgeGraphSectionProps {

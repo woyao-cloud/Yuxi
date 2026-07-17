@@ -35,7 +35,7 @@ export default function FeedbackModal({ onSubmit }: FeedbackModalProps) {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
+      <DialogTrigger>
         <Button variant="outline" size="sm">
           <MessageSquareText className="mr-1 h-4 w-4" />
           反馈

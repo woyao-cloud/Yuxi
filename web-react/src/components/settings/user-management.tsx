@@ -117,7 +117,7 @@ export default function UserManagement() {
             </div>
             <div className="space-y-2">
               <Label htmlFor="new-user-role">角色</Label>
-              <Select value={newRole} onValueChange={setNewRole}>
+              <Select value={newRole} onValueChange={(value) => value !== null && setNewRole(value)}>
                 <SelectTrigger id="new-user-role">
                   <SelectValue />
                 </SelectTrigger>

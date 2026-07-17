@@ -53,11 +53,11 @@ async function request<T>(
 
     try {
       errorData = await response.json()
-      const detail = errorData.detail
+      const detail = errorData?.detail
       if (detail && typeof detail === 'object') {
         errorMessage = detail.message || detail.error || errorMessage
       } else {
-        errorMessage = detail || errorData.message || errorMessage
+        errorMessage = detail || errorData?.message || errorMessage
       }
     } catch {
       // ignore JSON parse errors, use default error message
@@ -85,14 +85,31 @@ async function request<T>(
   return response.text() as Promise<T>
 }
 
+function buildUrl(url: string, params?: Record<string, unknown> | URLSearchParams): string {
+  if (!params) return url
+  const searchParams = params instanceof URLSearchParams
+    ? params
+    : new URLSearchParams(
+        Object.entries(params).reduce<Record<string, string>>((acc, [key, value]) => {
+          if (value !== undefined && value !== null) {
+            acc[key] = String(value)
+          }
+          return acc
+        }, {})
+      )
+  const queryString = searchParams.toString()
+  return queryString ? `${url}?${queryString}` : url
+}
+
 export const apiClient = {
   get<T>(
     url: string,
+    params?: Record<string, unknown> | URLSearchParams,
     options?: RequestInit,
     requiresAuth?: boolean,
     responseType?: 'json' | 'text' | 'blob'
   ): Promise<T> {
-    return request<T>(url, { method: 'GET', ...options }, requiresAuth, responseType)
+    return request<T>(buildUrl(url, params), { method: 'GET', ...options }, requiresAuth, responseType)
   },
   post<T>(
     url: string,
@@ -116,9 +133,10 @@ export const apiClient = {
   },
   delete<T>(
     url: string,
+    params?: Record<string, unknown> | URLSearchParams,
     options?: RequestInit,
     requiresAuth?: boolean
   ): Promise<T> {
-    return request<T>(url, { method: 'DELETE', ...options }, requiresAuth)
+    return request<T>(buildUrl(url, params), { method: 'DELETE', ...options }, requiresAuth)
   }
 }

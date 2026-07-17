@@ -22,7 +22,7 @@ export default function App() {
   }, [themeMode])
 
   useEffect(() => {
-    setAuthStore(useAuthStore)
+    setAuthStore(useAuthStore.getState())
   }, [])
 
   return (

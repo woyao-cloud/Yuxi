@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { Upload, Plus, Eye, Trash2, Download, Sparkles } from 'lucide-react'
+import { Upload, Eye, Trash2, Download, Sparkles } from 'lucide-react'
 
 interface EvaluationBenchmarksProps {
   kbId: string
@@ -43,7 +43,7 @@ const mockBenchmarks: Benchmark[] = [
 function PreviewDialog({ benchmark }: { benchmark: Benchmark }) {
   return (
     <Dialog>
-      <DialogTrigger asChild>
+      <DialogTrigger>
         <Button variant="ghost" size="icon-sm">
           <Eye className="h-4 w-4" />
         </Button>

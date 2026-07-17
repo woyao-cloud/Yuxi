@@ -2,7 +2,7 @@ import { apiClient } from './client'
 
 export const agentApi = {
   getAgents: (params?: { includeSubagents?: boolean }) =>
-    apiClient.get<{ agents: unknown[] }>('/api/agents', { params }),
+    apiClient.get<{ agents: unknown[] }>('/api/agents', params),
   getAgentDetail: (agentId: string) =>
     apiClient.get<{ agent: unknown }>(`/api/agents/${agentId}`),
   createAgent: (payload: Record<string, unknown>) =>

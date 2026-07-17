@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Switch } from '@/components/ui/switch'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
-import { Search, Sliders } from 'lucide-react'
+import { Sliders } from 'lucide-react'
 import EmbeddingModelSelector from './embedding-model-selector'
 import RerankModelSelector from './rerank-model-selector'
 
@@ -44,7 +44,7 @@ export default function SearchConfigModal({ open, onClose }: SearchConfigModalPr
         <div className="space-y-4">
           <div className="space-y-2">
             <Label>搜索模式</Label>
-            <Select value={searchMode} onValueChange={setSearchMode}>
+            <Select value={searchMode} onValueChange={(value) => value !== null && setSearchMode(value)}>
               <SelectTrigger className="w-full">
                 <SelectValue />
               </SelectTrigger>

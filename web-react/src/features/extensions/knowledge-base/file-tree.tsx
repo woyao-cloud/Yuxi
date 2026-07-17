@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { ChevronRight, ChevronDown, Folder, FileText } from 'lucide-react'
-import { Button } from '@/components/ui/button'
 
 interface FileTreeProps {
   documents: Array<{
@@ -31,11 +30,11 @@ function buildTree(documents: FileTreeProps['documents']): TreeNode[] {
       const isLast = i === parts.length - 1
 
       if (isLast) {
-        current.push({ name: part, type: 'file', id: doc.id })
+        current.push({ name: part!, type: 'file', id: doc.id })
       } else {
-        let folder = current.find((n) => n.name === part && n.type === 'folder') as TreeNode | undefined
+        let folder = current.find((n) => n.name === part! && n.type === 'folder') as TreeNode | undefined
         if (!folder) {
-          folder = { name: part, type: 'folder', children: [] }
+          folder = { name: part!, type: 'folder', children: [] }
           current.push(folder)
         }
         current = folder.children!
