@@ -29,6 +29,7 @@ logs
 *.db
 *.lock
 !uv.lock
+!pnpm-lock.yaml
 tmp
 cache
 .cache
