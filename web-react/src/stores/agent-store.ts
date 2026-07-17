@@ -24,6 +24,7 @@ interface AgentState {
   setAgentConfig: (config: Record<string, unknown>) => void
   setInitialized: (val: boolean) => void
   setInitializing: (val: boolean) => void
+  initialize: () => Promise<void>
   reset: () => void
 }
 
@@ -42,6 +43,22 @@ export const useAgentStore = create<AgentState>()(
       setAgentConfig: (config) => set({ agentConfig: config, originalAgentConfig: { ...config } }),
       setInitialized: (val) => set({ isInitialized: val }),
       setInitializing: (val) => set({ isInitializing: val }),
+      initialize: async () => {
+        const state = useAgentStore.getState()
+        if (state.isInitialized || state.isInitializing) return
+        state.setInitializing(true)
+        try {
+          const response = await fetch('/api/agents')
+          if (!response.ok) throw new Error('获取 Agent 列表失败')
+          const data = await response.json()
+          state.setAgents(data.agents ?? data)
+          state.setInitialized(true)
+        } catch (err) {
+          console.error('Failed to initialize agents:', err)
+        } finally {
+          state.setInitializing(false)
+        }
+      },
       reset: () => set({
         selectedAgentId: null,
         agents: [],
