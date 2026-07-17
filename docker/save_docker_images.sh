@@ -19,7 +19,7 @@ IMAGES=(
     "neo4j:5.26",
     "quay.io/coreos/etcd:v3.5.5",
     "minio/minio:RELEASE.2023-03-20T20-16-18Z",
-    "milvusdb/milvus:v2.5.6",
+    "milvusdb/milvus:v2.6.15",
 )
 
 # 确保所有镜像都已下载
