@@ -77,19 +77,19 @@ export default function AppLayout() {
           }`}
         >
           {/* Brand */}
-          <div className="flex h-9 items-center justify-between px-2 py-1.5">
+          <div className="flex h-9 items-center justify-between pl-2 pr-0 py-1.5">
             {sidebarCollapsed ? (
               <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => useChatStore.getState().setSidebarCollapsed(false)}>
                 <PanelLeftOpen className="h-4 w-4" />
               </Button>
             ) : (
-              <div className="flex items-center gap-2 overflow-hidden">
-                <Avatar className="h-7 w-7">
+              <div className="flex items-center gap-2 overflow-hidden flex-1">
+                <Avatar className="h-7 w-7 shrink-0">
                   <AvatarImage src="/logo.png" />
                   <AvatarFallback>Y</AvatarFallback>
                 </Avatar>
                 <span className="truncate text-sm font-semibold">Yuxi</span>
-                <Button variant="ghost" size="icon" className="ml-auto h-7 w-7" onClick={toggleSidebar}>
+                <Button variant="ghost" size="icon" className="ml-auto h-7 w-7 mr-0" onClick={toggleSidebar}>
                   <PanelLeftClose className="h-4 w-4" />
                 </Button>
               </div>
