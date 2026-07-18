@@ -1,9 +1,14 @@
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from '@/components/ui/sheet'
 import { ClipboardList } from 'lucide-react'
 
-export default function TaskCenterDrawer() {
+interface TaskCenterDrawerProps {
+  open?: boolean
+  onClose?: () => void
+}
+
+export default function TaskCenterDrawer({ open = false, onClose }: TaskCenterDrawerProps) {
   return (
-    <Sheet open>
+    <Sheet open={open} onOpenChange={(isOpen) => { if (!isOpen) onClose?.() }}>
       <SheetContent side="right">
         <SheetHeader>
           <SheetTitle className="flex items-center gap-2">

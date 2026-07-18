@@ -29,6 +29,7 @@ export default function AppLayout() {
   const { isSuperAdmin, isAdmin } = useAuthStore()
   const navigate = useNavigate()
   const location = useLocation()
+  const [taskCenterOpen, setTaskCenterOpen] = useState(false)
   const [githubStars, setGithubStars] = useState(0)
 
   useEffect(() => {
@@ -141,7 +142,7 @@ export default function AppLayout() {
 
         {/* Modals */}
         <ConversationSearchModal />
-        {isAdmin && <TaskCenterDrawer />}
+        {isAdmin && <TaskCenterDrawer open={taskCenterOpen} onClose={() => setTaskCenterOpen(false)} />}
       </div>
     </TooltipProvider>
   )
