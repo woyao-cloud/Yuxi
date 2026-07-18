@@ -23,7 +23,7 @@ export default function QuerySection({ kbId }: QuerySectionProps) {
 
   const queryMutation = useMutation({
     mutationFn: (query: Record<string, unknown>) =>
-      knowledgeApi.query(kbId, query)
+      knowledgeApi.query(kbId, JSON.stringify(query), query)
   })
 
   const handleSearch = () => {

@@ -26,7 +26,7 @@ export const useDatabaseStore = create<DatabaseState>()((set) => ({
       const data = isAdmin
         ? await knowledgeApi.getDatabases()
         : await knowledgeApi.getAccessibleDatabases()
-      const list = (data?.databases || []) as Database[]
+      const list = ((data as { databases?: unknown[] })?.databases || []) as Database[]
       const sorted = list.sort((a, b) => {
         const timeA = a.created_at ? new Date(a.created_at).getTime() : 0
         const timeB = b.created_at ? new Date(b.created_at).getTime() : 0

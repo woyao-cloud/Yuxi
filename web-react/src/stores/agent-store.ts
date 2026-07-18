@@ -180,14 +180,14 @@ export const useAgentStore = create<AgentState>()(
       fetchMentionResources: async () => {
         try {
           const [dbsRes, mcpsRes, skillsRes] = await Promise.all([
-            knowledgeApi.getAccessibleDatabases().catch(() => ({ databases: [] })),
-            extensionsApi.getMcpServers().catch(() => ({ data: [] })),
-            extensionsApi.listAccessibleSkills().catch(() => ({ data: [] }))
+            knowledgeApi.getAccessibleDatabases().catch(() => ({ databases: [] as unknown[] })),
+            extensionsApi.getMcpServers().catch(() => ({ data: [] as unknown[] })),
+            extensionsApi.listAccessibleSkills().catch(() => ({ data: [] as unknown[] }))
           ])
           set({
-            availableKnowledgeBases: (dbsRes?.databases || []) as MentionResource[],
-            availableMcps: (mcpsRes?.data || []) as MentionResource[],
-            availableSkills: (skillsRes?.data || []) as MentionResource[]
+            availableKnowledgeBases: ((dbsRes as { databases?: MentionResource[] })?.databases || []) as MentionResource[],
+            availableMcps: ((mcpsRes as { data?: MentionResource[] })?.data || []) as MentionResource[],
+            availableSkills: ((skillsRes as { data?: MentionResource[] })?.data || []) as MentionResource[]
           })
         } catch (err) {
           console.warn('Failed to fetch mention resources:', err)

@@ -68,7 +68,7 @@ export const useInfoStore = create<InfoState>()((set, get) => ({
 
     set({ isLoading: true })
     try {
-      const response = await systemApi.getInfo()
+      const response = (await systemApi.getInfo()) as Record<string, unknown>
       if (response) {
         set({
           infoConfig: response,

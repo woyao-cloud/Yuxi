@@ -13,10 +13,10 @@ interface CallStat {
 export default function CallStats() {
   const { data, isLoading } = useQuery({
     queryKey: ['dashboard-call-stats'],
-    queryFn: () => dashboardApi.getCallStats()
+    queryFn: () => dashboardApi.getAllStats()
   })
 
-  const callStats = (data as CallStat[]) ?? []
+  const callStats = data ? ([data] as unknown as CallStat[]) : []
 
   return (
     <Card>

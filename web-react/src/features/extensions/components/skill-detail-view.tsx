@@ -23,8 +23,12 @@ export default function SkillDetailView() {
 
   const { data, isLoading } = useQuery({
     queryKey: ['skill', slug],
-    queryFn: () => extensionsApi.getSkillDetail(slug!),
-    enabled: !!slug
+    queryFn: () => extensionsApi.listAccessibleSkills(),
+    enabled: !!slug,
+    select: (result) => {
+      const skills = ((result as { data?: unknown[] }).data || []) as Array<{ slug?: string }>
+      return skills.find((s) => s.slug === slug) || null
+    }
   })
 
   if (isLoading) {

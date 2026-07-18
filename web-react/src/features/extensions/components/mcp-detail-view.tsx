@@ -29,7 +29,7 @@ export default function McpDetailView() {
 
   const { data, isLoading } = useQuery({
     queryKey: ['mcp-server', slug],
-    queryFn: () => extensionsApi.getMcpServerDetail(slug!),
+    queryFn: () => extensionsApi.getMcpServer(slug!),
     enabled: !!slug
   })
 

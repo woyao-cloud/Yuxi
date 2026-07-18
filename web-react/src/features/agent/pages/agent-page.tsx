@@ -10,6 +10,7 @@ export default function AgentPage() {
   const { threadId } = useParams<{ threadId: string }>()
   const setCurrentThreadId = useChatStore((s) => s.setCurrentThreadId)
   const { selectedAgentId, agents, isInitialized, initialize } = useAgentStore()
+  const loadThreads = useChatStore((s) => s.loadThreads)
 
   useEffect(() => {
     if (threadId) setCurrentThreadId(threadId)
@@ -20,6 +21,12 @@ export default function AgentPage() {
     if (!isInitialized) initialize()
   }, [isInitialized, initialize])
 
+  useEffect(() => {
+    if (selectedAgentId) {
+      loadThreads(selectedAgentId)
+    }
+  }, [selectedAgentId, loadThreads])
+
   return (
     <div className="flex h-full flex-col">
       <PageHeader
@@ -27,7 +34,7 @@ export default function AgentPage() {
         actions={<AgentSelector agents={agents} selectedId={selectedAgentId} />}
       />
       <div className="flex-1">
-        <AgentChat threadId={threadId ?? null} />
+        <AgentChat agentId={selectedAgentId} threadId={threadId ?? null} />
       </div>
     </div>
   )

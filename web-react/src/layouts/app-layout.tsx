@@ -6,8 +6,11 @@ import {
 } from 'lucide-react'
 import { useAuthStore } from '@/stores/auth-store'
 import { useChatStore } from '@/stores/chat-store'
+import { useInfoStore } from '@/stores/info-store'
+import { useConfigStore } from '@/stores/config-store'
+import { useDatabaseStore } from '@/stores/database-store'
 import { Button } from '@/components/ui/button'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
+import { Tooltip, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import ConversationNavSection from '@/features/agent/components/conversation-nav-section'
@@ -31,6 +34,9 @@ export default function AppLayout() {
   const location = useLocation()
   const [taskCenterOpen, setTaskCenterOpen] = useState(false)
   const [githubStars, setGithubStars] = useState(0)
+  const loadInfoConfig = useInfoStore((s) => s.loadInfoConfig)
+  const refreshConfig = useConfigStore((s) => s.refreshConfig)
+  const loadDatabases = useDatabaseStore((s) => s.loadDatabases)
 
   useEffect(() => {
     fetch('https://api.github.com/repos/xerrors/Yuxi')
@@ -38,6 +44,15 @@ export default function AppLayout() {
       .then((d) => setGithubStars(d.stargazers_count))
       .catch(() => {})
   }, [])
+
+  useEffect(() => {
+    loadInfoConfig()
+    loadDatabases()
+  }, [loadInfoConfig, loadDatabases])
+
+  useEffect(() => {
+    refreshConfig()
+  }, [refreshConfig])
 
   const mainList: NavItem[] = [
     { name: '创建新对话', path: '/agent', icon: MessageCirclePlus, exactActive: true },
@@ -96,7 +111,6 @@ export default function AppLayout() {
                     {!sidebarCollapsed && <span className="ml-2 truncate">{item.name}</span>}
                   </Button>
                 </TooltipTrigger>
-                {sidebarCollapsed && <TooltipContent side="right">{item.name}</TooltipContent>}
               </Tooltip>
             ))}
 
@@ -109,7 +123,6 @@ export default function AppLayout() {
                   {!sidebarCollapsed && <span className="ml-2 truncate">搜索对话</span>}
                 </Button>
               </TooltipTrigger>
-              {sidebarCollapsed && <TooltipContent side="right">搜索对话</TooltipContent>}
             </Tooltip>
           </nav>
 

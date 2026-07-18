@@ -12,7 +12,7 @@ export default function WorkspacePage() {
 
   const { data: files, isLoading } = useQuery({
     queryKey: ['workspace-files', currentPath],
-    queryFn: () => workspaceApi.listFiles(currentPath)
+    queryFn: () => workspaceApi.getTree(currentPath)
   })
 
   return (
